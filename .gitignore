@@ -1,0 +1,21 @@
+# Base de datos
+data/
+*.db
+
+# Credenciales
+.htpasswd
+*.env
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Docker
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db

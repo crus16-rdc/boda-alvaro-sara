@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Álvaro & Sara</title>
+
+    <style>
+
+        /* ==========================
+           GENERAL
+        ========================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f4ef;
+            color: #4a4038;
+            font-family: Georgia, serif;
+            text-align: center;
+        }
+
+
+        /* ==========================
+           CONTENEDOR PRINCIPAL
+        ========================== */
+
+        .invitation {
+            min-height: 100vh;
+            padding: 70px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        /* ==========================
+           NOMBRES
+        ========================== */
+
+        h1 {
+            font-size: clamp(48px, 7vw, 76px);
+            font-weight: normal;
+            letter-spacing: 1px;
+            margin: 20px 0 55px;
+        }
+
+
+        /* ==========================
+           INTRODUCCIÓN
+        ========================== */
+
+        .intro {
+            font-size: 18px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0 0 30px;
+        }
+
+
+        /* ==========================
+           SEPARADOR
+        ========================== */
+
+        .divider {
+            width: 80px;
+            height: 1px;
+            background: #8d7966;
+            margin: 0 auto 25px;
+        }
+
+
+        /* ==========================
+           VIDEO
+        ========================== */
+
+        .video-container {
+            width: min(700px, 92vw);
+            margin: 0 auto 45px;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-height: 65vh;
+            display: block;
+            margin: auto;
+            border-radius: 3px;
+        }
+
+
+        /* ==========================
+           MENSAJES
+        ========================== */
+
+        .message {
+            max-width: 650px;
+            font-size: 20px;
+            line-height: 1.7;
+            margin: 0 auto 28px;
+        }
+
+
+        /* ==========================
+           FECHA
+        ========================== */
+
+        .date {
+            font-size: 22px;
+            letter-spacing: 2px;
+            margin-top: 35px;
+        }
+
+
+        /* ==========================
+           CONFIRMACIÓN
+        ========================== */
+
+        .rsvp {
+            width: 100%;
+            margin-top: 100px;
+            padding: 80px 20px 100px;
+            border-top: 1px solid #d8cec4;
+        }
+
+        .rsvp-intro {
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .rsvp h2 {
+            font-size: 42px;
+            font-weight: normal;
+            margin: 10px 0 25px;
+        }
+
+        .rsvp-text {
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 550px;
+            margin: 0 auto 35px;
+        }
+
+
+        /* ==========================
+           FORMULARIO
+        ========================== */
+
+        #rsvp-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .guest-list {
+            width: min(450px, 90vw);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .guest-row {
+            display: flex;
+            width: 100%;
+            gap: 8px;
+        }
+
+        .guest-row input {
+            flex: 1;
+            min-width: 0;
+            padding: 16px 18px;
+
+            border: 1px solid #b8aa9d;
+
+            background: transparent;
+
+            font-family: Georgia, serif;
+            font-size: 16px;
+
+            color: #4a4038;
+
+            text-align: center;
+        }
+
+        .guest-row input::placeholder {
+            color: #8d8177;
+        }
+
+        .guest-row input:focus {
+            outline: none;
+            border-color: #4a4038;
+        }
+
+
+        /* ==========================
+           BOTÓN ELIMINAR
+        ========================== */
+
+        .remove-guest {
+            width: 45px;
+
+            border: 1px solid #b8aa9d;
+
+            background: transparent;
+
+            color: #8d8177;
+
+            font-family: Georgia, serif;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+        }
+
+        .remove-guest:hover {
+            background: #4a4038;
+
+            color: #f8f4ef;
+
+            border-color: #4a4038;
+        }
+
+
+        /* ==========================
+           AÑADIR ASISTENTE
+        ========================== */
+
+        .add-guest {
+            margin: 22px 0 25px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #4a4038;
+
+            font-family: Georgia, serif;
+
+            font-size: 15px;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            padding: 8px 15px;
+        }
+
+        .add-guest:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ==========================
+           BOTÓN CONFIRMAR
+        ========================== */
+
+        #rsvp-form button[type="submit"] {
+            padding: 15px 35px;
+
+            border: 1px solid #4a4038;
+
+            background: #4a4038;
+
+            color: #f8f4ef;
+
+            font-family: Georgia, serif;
+
+            font-size: 14px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+        }
+
+        #rsvp-form button[type="submit"]:hover {
+            background: transparent;
+
+            color: #4a4038;
+        }
+
+        #rsvp-form button[type="submit"]:disabled {
+            opacity: 0.6;
+
+            cursor: wait;
+        }
+
+
+        /* ==========================
+           MENSAJE DE ÉXITO
+        ========================== */
+
+        .success-message {
+            display: none;
+
+            max-width: 550px;
+
+            margin: 40px auto 0;
+
+            padding: 30px 20px;
+        }
+
+        .success-message .heart {
+            font-size: 32px;
+
+            margin-bottom: 15px;
+        }
+
+        .success-message h3 {
+            font-size: 32px;
+
+            font-weight: normal;
+
+            margin: 10px 0 20px;
+        }
+
+        .success-message p {
+            font-size: 18px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ==========================
+           MENSAJE DE ERROR
+        ========================== */
+
+        .error-message {
+            display: none;
+
+            max-width: 500px;
+
+            margin: 25px auto 0;
+
+            font-size: 16px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==========================
+           MÓVIL
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            .invitation {
+                padding: 50px 18px;
+            }
+
+            h1 {
+                font-size: 42px;
+
+                margin-bottom: 45px;
+            }
+
+            .intro {
+                font-size: 14px;
+
+                letter-spacing: 3px;
+            }
+
+            .message {
+                font-size: 18px;
+
+                line-height: 1.6;
+            }
+
+            .date {
+                font-size: 19px;
+            }
+
+            .rsvp {
+                margin-top: 70px;
+
+                padding: 60px 15px 80px;
+            }
+
+            .rsvp h2 {
+                font-size: 34px;
+            }
+
+            .rsvp-text {
+                font-size: 17px;
+            }
+
+            .guest-list {
+                width: 90vw;
+            }
+
+            .guest-row input {
+                padding: 14px 10px;
+            }
+
+            #rsvp-form button[type="submit"] {
+                width: auto;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <main class="invitation">
+
+
+        <!-- ==========================
+             NOMBRES
+        =========================== -->
+
+        <h1>
+            ÁLVARO &amp; SARA
+        </h1>
+
+
+        <!-- ==========================
+             INTRODUCCIÓN
+        =========================== -->
+
+        <p class="intro">
+            Tenemos algo que contarte
+        </p>
+
+
+        <div class="divider"></div>
+
+
+        <!-- ==========================
+             VIDEO
+        =========================== -->
+
+        <div class="video-container">
+
+            <video
+                controls
+                playsinline
+            >
+
+                <source
+                    src="video/boda.mp4"
+                    type="video/mp4"
+                >
+
+                Tu navegador no puede reproducir este vídeo.
+
+            </video>
+
+        </div>
+
+
+        <!-- ==========================
+             MENSAJE
+        ========================== -->
+
+        <p class="message">
+
+            Hay momentos en la vida que merecen ser celebrados
+            rodeados de las personas que más queremos.
+
+        </p>
+
+
+        <p class="message">
+
+            Nos encantaría compartir este día contigo.
+
+        </p>
+
+
+        <!-- ==========================
+             FECHA
+        ========================== -->
+
+        <div class="date">
+
+            25 · 09 · 2027
+
+        </div>
+
+
+        <!-- ==========================
+             CONFIRMACIÓN
+        ========================== -->
+
+        <section class="rsvp">
+
+
+            <p class="rsvp-intro">
+
+                Nos encantaría contar contigo
+
+            </p>
+
+
+            <h2>
+
+                ¿Nos acompañas?
+
+            </h2>
+
+
+            <p class="rsvp-text">
+
+                Confírmanos tu asistencia y dinos quiénes
+                nos acompañaréis.
+
+            </p>
+
+
+            <!-- FORMULARIO -->
+
+            <form id="rsvp-form">
+
+
+                <!-- LISTA DE INVITADOS -->
+
+                <div
+                    class="guest-list"
+                    id="guest-list"
+                >
+
+
+                    <!-- PRIMER INVITADO -->
+
+                    <div class="guest-row">
+
+                        <input
+                            type="text"
+                            name="guest"
+                            placeholder="Nombre y apellidos"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- AÑADIR OTRO -->
+
+                <button
+                    type="button"
+                    class="add-guest"
+                    id="add-guest"
+                >
+
+                    + Añadir otro asistente
+
+                </button>
+
+
+                <!-- CONFIRMAR -->
+
+                <button
+                    type="submit"
+                >
+
+                    Confirmar asistencia
+
+                </button>
+
+
+            </form>
+
+
+            <!-- MENSAJE DE ERROR -->
+
+            <div
+                class="error-message"
+                id="error-message"
+            >
+
+                No hemos podido enviar la confirmación.
+                Por favor, inténtalo de nuevo.
+
+            </div>
+
+
+            <!-- MENSAJE DE ÉXITO -->
+
+            <div
+                class="success-message"
+                id="success-message"
+            >
+
+
+                <div class="heart">
+
+                    ♡
+
+                </div>
+
+
+                <h3>
+
+                    ¡Gracias!
+
+                </h3>
+
+
+                <p>
+
+                    Hemos recibido vuestra confirmación.
+
+                </p>
+
+
+                <p>
+
+                    Qué ganas de celebrar este día
+                    con vosotros.
+
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+
+        /*
+         * ELEMENTOS
+         */
+
+        const guestList =
+            document.getElementById("guest-list");
+
+        const addGuestButton =
+            document.getElementById("add-guest");
+
+        const form =
+            document.getElementById("rsvp-form");
+
+        const successMessage =
+            document.getElementById("success-message");
+
+        const errorMessage =
+            document.getElementById("error-message");
+
+
+        /*
+         * AÑADIR ASISTENTE
+         */
+
+        addGuestButton.addEventListener(
+            "click",
+            function () {
+
+
+                const row =
+                    document.createElement("div");
+
+
+                row.className =
+                    "guest-row";
+
+
+                row.innerHTML = `
+
+                    <input
+                        type="text"
+                        name="guest"
+                        placeholder="Nombre y apellidos"
+                        autocomplete="name"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="remove-guest"
+                        title="Eliminar asistente"
+                    >
+                        ×
+                    </button>
+
+                `;
+
+
+                guestList.appendChild(row);
+
+
+                row.querySelector("input").focus();
+
+            }
+        );
+
+
+        /*
+         * ELIMINAR ASISTENTE
+         */
+
+        guestList.addEventListener(
+            "click",
+            function (event) {
+
+
+                if (
+                    event.target.classList.contains(
+                        "remove-guest"
+                    )
+                ) {
+
+                    event.target
+                        .parentElement
+                        .remove();
+
+                }
+
+            }
+        );
+
+
+        /*
+         * CONFIRMAR ASISTENCIA
+         */
+
+        form.addEventListener(
+            "submit",
+            async function (event) {
+
+
+                event.preventDefault();
+
+
+                /*
+                 * OCULTAR ERROR ANTERIOR
+                 */
+
+                errorMessage.style.display =
+                    "none";
+
+
+                /*
+                 * RECOGER NOMBRES
+                 */
+
+                const inputs =
+                    document.querySelectorAll(
+                        '#guest-list input[name="guest"]'
+                    );
+
+
+                const names =
+                    Array.from(inputs)
+
+                        .map(
+                            input =>
+                                input.value.trim()
+                        )
+
+                        .filter(
+                            name =>
+                                name !== ""
+                        );
+
+
+                /*
+                 * COMPROBAR QUE HAYA
+                 * AL MENOS UN INVITADO
+                 */
+
+                if (names.length === 0) {
+
+                    errorMessage.textContent =
+                        "Introduce al menos un nombre.";
+
+                    errorMessage.style.display =
+                        "block";
+
+                    return;
+
+                }
+
+
+                /*
+                 * BOTÓN
+                 */
+
+                const submitButton =
+                    form.querySelector(
+                        'button[type="submit"]'
+                    );
+
+
+                submitButton.disabled =
+                    true;
+
+
+                submitButton.textContent =
+                    "ENVIANDO...";
+
+
+                /*
+                 * ENVIAR AL BACKEND
+                 */
+
+                try {
+
+
+                    const response =
+                        await fetch(
+                            "/api/rsvp",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        names: names
+                                    })
+
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    /*
+                     * COMPROBAR RESPUESTA
+                     */
+
+                    if (
+                        !response.ok ||
+                        !result.success
+                    ) {
+
+                        throw new Error(
+                            result.message ||
+                            "Error al enviar"
+                        );
+
+                    }
+
+
+                    /*
+                     * CONFIRMACIÓN
+                     */
+
+                    form.style.display =
+                        "none";
+
+
+                    successMessage.style.display =
+                        "block";
+
+
+                }
+
+
+                catch (error) {
+
+
+                    console.error(
+                        "Error:",
+                        error
+                    );
+
+
+                    errorMessage.textContent =
+                        "No hemos podido enviar la confirmación. " +
+                        "Por favor, inténtalo de nuevo.";
+
+
+                    errorMessage.style.display =
+                        "block";
+
+
+                    submitButton.disabled =
+                        false;
+
+
+                    submitButton.textContent =
+                        "CONFIRMAR ASISTENCIA";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

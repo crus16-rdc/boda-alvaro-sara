@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Álvaro & Sara · Administración</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background: #f8f4ef;
+            color: #3f342d;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .small-title {
+            font-size: 13px;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .date {
+            margin-top: 15px;
+            font-size: 18px;
+            letter-spacing: 3px;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 25px 40px;
+            text-align: center;
+            border: 1px solid #e7ded5;
+            min-width: 190px;
+        }
+
+        .number {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+        .label {
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #e7ded5;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee7e0;
+        }
+
+        th {
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: normal;
+        }
+
+        td {
+            font-size: 16px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            font-size: 18px;
+        }
+
+        .error {
+            text-align: center;
+            padding: 30px;
+            color: #9a4c4c;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 25px 12px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .card {
+                width: 100%;
+            }
+
+            th,
+            td {
+                padding: 14px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="small-title">ÁLVARO & SARA</div>
+        <h1>Confirmaciones</h1>
+        <div class="date">25 · 09 · 2027</div>
+    </div>
+
+    <div class="summary">
+
+        <div class="card">
+            <div class="number" id="confirmationCount">-</div>
+            <div class="label">Confirmaciones</div>
+        </div>
+
+        <div class="card">
+            <div class="number" id="guestCount">-</div>
+            <div class="label">Invitados</div>
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Invitados</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+
+            <tbody id="confirmationTable">
+                <tr>
+                    <td colspan="3" class="empty">
+                        Cargando confirmaciones...
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+async function loadConfirmations() {
+
+    const table = document.getElementById("confirmationTable");
+
+    try {
+
+        const response = await fetch("/api/admin/confirmations");
+
+        if (!response.ok) {
+            throw new Error("Error al obtener las confirmaciones");
+        }
+
+        const confirmations = await response.json();
+
+        document.getElementById("confirmationCount").textContent =
+            confirmations.length;
+
+        let totalGuests = 0;
+
+        confirmations.forEach(item => {
+
+            const names = item.names
+                .split(",")
+                .map(name => name.trim())
+                .filter(name => name.length > 0);
+
+            totalGuests += names.length;
+
+        });
+
+        document.getElementById("guestCount").textContent = totalGuests;
+
+        if (confirmations.length === 0) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="3" class="empty">
+                        Todavía no hay confirmaciones.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        table.innerHTML = confirmations.map(item => {
+
+            const date = new Date(item.created_at);
+
+            const formattedDate = date.toLocaleString("es-ES", {
+                dateStyle: "short",
+                timeStyle: "short"
+            });
+
+            return `
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.names}</td>
+                    <td>${formattedDate}</td>
+                </tr>
+            `;
+
+        }).join("");
+
+    } catch (error) {
+
+        console.error(error);
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="3" class="error">
+                    No se han podido cargar las confirmaciones.
+                </td>
+            </tr>
+        `;
+
+    }
+}
+
+loadConfirmations();
+
+</script>
+
+</body>
+</html>
